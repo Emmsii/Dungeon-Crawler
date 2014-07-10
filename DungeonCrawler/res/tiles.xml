@@ -1,0 +1,19 @@
+<tiles>
+	<tile name="Bedrock" id="0" solid="1" rgb="25,25,25"/>
+	
+	<tile name="Floor" id="1" solid="0" rgb="176,164,151"/>
+	<tile name="Wall" id="2" solid="1" rgb="89,79,69"/>
+	<tile name="Door" id="3" soli="0" rgb="163,115,75"/>
+	
+	<tile name="Start" id="4" soli="0" rgb="255,119,0"/>
+	<tile name="End" id="5" solid="0" rgb="183,0,255"/>
+	
+	<tile name="Water" id="6" solid="0" liquid="1" rgb="163,115,75"/>
+	<tile name="Lava" id="7" solid="0" rgb="227,68,32"/>
+	
+	<tile name="Cave Floor" id="8" solid="0" rgb="163,115,75"/>
+	<tile name="Mossy FLooy" id="9" solid="0" rgb="163,115,75"/>
+	<tile name="Mossy Wall" id="10" solid="1" rgb="163,115,75"/>
+	
+	<tile name="Chest" id="100" solid="0" rgb="163,115,75"/>
+</tiles>
