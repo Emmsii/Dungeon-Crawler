@@ -11,11 +11,12 @@ import java.util.Random;
 import rlforj.los.IFovAlgorithm;
 import rlforj.los.ShadowCasting;
 
+import com.egs.dungeon.entities.Dwarf;
 import com.egs.dungeon.entities.Entity;
-import com.egs.dungeon.entities.Monster;
 import com.egs.dungeon.entities.Player;
-import com.egs.dungeon.level.LOSBoard;
 import com.egs.dungeon.level.Dungeon;
+import com.egs.dungeon.level.LOSBoard;
+import com.egs.dungeon.level.Room;
 import com.egs.dungeon.level.Tile;
 import com.egs.dungeon.util.FileHandler;
 import com.egs.dungeon.util.InputHandler;
@@ -88,7 +89,26 @@ public class Game {
 		endY = currentDungeon.getStart().getY();
 
 		entities.add(player);
-		entities.add(new Monster(entities.size(), currentDungeon.getStart().getX() + 2, currentDungeon.getStart().getY() + 2, 30, "g", this, currentDungeon));
+		//entities.add(new Monster(entities.size(), currentDungeon.getStart().getX() + 2, currentDungeon.getStart().getY() + 2, 30, "g", this, currentDungeon));
+		
+		int currentPop = 0;
+		int maxPop = 50;
+				
+		for(Room r : currentDungeon.getRooms()){
+			if(r.isSettlement()){
+				while(currentPop < maxPop){
+					int rx = random.nextInt(dungeonSize);
+					int ry = random.nextInt(dungeonSize);
+					if(rx > r.getX() && rx <= r.getX() + r.getWidth() && ry > r.getY() && ry <= r.getY() + r.getHeight()){
+						if(currentDungeon.getTile(rx, ry) != 1) continue;
+						currentPop++;
+						Dwarf dwarf = new Dwarf(entities.size(), rx, ry, 15, "D", this, currentDungeon);
+						dwarf.setSettlement(r);
+						entities.add(dwarf);
+					}
+				}
+			}
+		}
 		
 		
 		fovAl = new ShadowCasting();

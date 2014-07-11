@@ -323,7 +323,7 @@ public class Dungeon {
 		return possibleCoord;
 	}
 	
-	private int randomRange(int a, int b){
+	public int randomRange(int a, int b){
 		return random.nextInt((a - b) + 1) + b;
 	}
 	
@@ -373,6 +373,14 @@ public class Dungeon {
 
 	public void setTiles(int[][] tiles) {
 		this.tiles = tiles;
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
 	}
 
 }

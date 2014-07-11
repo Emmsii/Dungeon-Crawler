@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.egs.dungeon.Game;
 import com.egs.dungeon.level.Dungeon;
+import com.egs.dungeon.level.Room;
 import com.egs.dungeon.level.Tile;
 import com.egs.dungeon.util.Node;
 import com.egs.dungeon.util.Vector2i;
@@ -13,7 +14,7 @@ public class Mob extends Entity{
 	protected boolean moving;
 	protected int moveX;
 	protected int moveY;
-	protected int time;
+	protected long time;
 	
 	protected double karma;
 	protected int sight;
@@ -32,7 +33,7 @@ public class Mob extends Entity{
 		
 		moving = false;
 		karma = 0.0;
-		
+		time = random.nextInt(60);
 	}
 
 	public void wander(int speed){
@@ -53,6 +54,32 @@ public class Mob extends Entity{
 					moving = true;
 					tries = 0;
 				}
+			}
+			tries = 0;
+		}
+
+		pathTo(new Vector2i(x, y), new Vector2i(rx, ry), speed);
+	}
+	
+	public void wanderSettlement(int speed, Room room){
+		if(!moving && time % 80 == 0){
+			int tries = 0;
+			while(!moving){
+				tries++;
+				if(tries >= 50) break;
+				rx = x + random.nextInt(10) - 5;
+				ry = y + random.nextInt(10) - 5;
+				
+				if(!dungeon.checkBounds(rx, ry)) continue;;
+				if(Tile.tiles[dungeon.getTile(x, y)].isSolid()) continue;
+				if(rx > room.getX() && rx <= room.getX() + room.getWidth() && ry > room.getY() && ry <= room.getY() + room.getHeight()){
+					List<Node> path = game.pathFind(new Vector2i(x, y), new Vector2i(rx, ry), sight);
+					if(path == null) continue;
+					else{
+						moving = true;
+						tries = 0;
+					}
+				}else continue;
 			}
 			tries = 0;
 		}
@@ -115,7 +142,7 @@ public class Mob extends Entity{
 	}
 	
 	public void checkIfOnScreen(){
-		if(x > game.xPos && x < game.xPos + game.tilesW && y > game.yPos && y < game.yPos + game.tilesH) onScreen = true;
+		if(x > game.player.getX() - (game.tilesW / 2) && x <= game.player.getX() + (game.tilesW / 2) && y > game.player.getY() - (game.tilesH / 2) && y <= game.player.getY() + (game.tilesH / 2)) onScreen = true;
 		else onScreen = false;
 	}
 	

@@ -17,17 +17,19 @@ import com.egs.dungeon.util.Vector2i;
 public class Monster extends Mob{
 
 	public List<Node> path;
-	
+		
 	public Monster(int id, int x, int y, int sight, String icon, Game game, Dungeon dungeon) {
 		super(id, x, y, sight, icon, game, dungeon);
+		time = random.nextInt(60);
 	}
 	
 	public void update(){
 		time++;
-		checkIfOnScreen();
+		if(time % 10 == 0) checkIfOnScreen();
 		
 		if(!onScreen) updateLite();
 		else updateHeavy();
+		
 	}
 	
 	private void updateLite(){
@@ -35,8 +37,9 @@ public class Monster extends Mob{
 	}
 	
 	private void updateHeavy(){
-//		wander(30);
-//		followMob(game.player, 30);
+		//TODO: Add better movement ai.
+		wander(sight);
+//		followMob(game.player, sight);
 //		move();
 		
 		if(time % 60 == 0){
@@ -68,17 +71,5 @@ public class Monster extends Mob{
 				if(y > vec.getY()) y--;
 			}
 		}
-	}
-	
-	public interface ILosBoard{
-		public boolean contains(int x, int y);
-		public boolean isObsticle(int x, int y);
-		public void visit(int x, int y);
-		
-		
-	}
-	
-
-	
-	
+	}	
 }
