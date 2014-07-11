@@ -94,6 +94,12 @@ public class Game {
 		int currentPop = 0;
 		int maxPop = 50;
 				
+		/*
+		 * TODO: Need to refine this.
+		 * Should create mob based of settlement type.
+		 * Which means settlement files need a type value.
+		 */
+		
 		for(Room r : currentDungeon.getRooms()){
 			if(r.isSettlement()){
 				while(currentPop < maxPop){
@@ -147,13 +153,11 @@ public class Game {
 		for(Entity e : entities) e.update();
 		fovAl.visitFieldOfView(board, player.getX(), player.getY(), player.getSight());
 
+		//TODO: Fix this, still broken.
 //		if(player.getX() == endX && player.getY() == endY) nextLevel();		
 	}
 		
-	public void render(Graphics2D g){
-		float distance = 0.0f;
-		float maxDistance = 0.0f;
-		
+	public void render(Graphics2D g){		
 		xCam = xPos - (player.getX() * tileSize) + (main.getWidth() / 2);
 		yCam = yPos - (player.getY() * tileSize) + (main.getHeight() / 2);
 		
@@ -170,53 +174,7 @@ public class Game {
 		if(y0 + tilesH >= dungeonSize) y1 = dungeonSize;
 		else y1 = y0 + tilesH;
 		for(int y = y0; y < y1; y++){
-			for(int x = x0; x < x1; x++){
-				/*
-				 * IDs:
-				 * 
-				 * 00: Bedrock
-				 * 01: Floor
-				 * 02: Wall
-				 * 03: Door
-				 * 
-				 * 04: START POINT
-				 * 05: END POINT
-				 * 
-				 * 06: Water
-				 * 07: Lava
-				 * 
-				 * 08: Cave Floor
-				 * 09: Mossy Floor
-				 * 10: Mossy Wall
-				 * 
-				 * 100: Chest
-				 * 
-				 */
-					
-//					if(dungeon.getTile(x, y) == 0) g.setColor(new Color(25, 25, 25));
-//					
-//					if(dungeon.getTile(x, y) == 1) g.setColor(new Color(176, 164, 151));
-//					if(dungeon.getTile(x, y) == 2) g.setColor(new Color(89, 79, 69));	
-//					if(dungeon.getTile(x, y) == 3) g.setColor(new Color(163, 115, 75));
-//					
-//					if(dungeon.getTile(x, y) == 4) g.setColor(new Color(255, 119, 0));
-//					if(dungeon.getTile(x, y) == 5) g.setColor(new Color(183, 0, 255));
-//					
-//					if(dungeon.getTile(x, y) == 6) g.setColor(new Color(118, 169, 219));
-//					if(dungeon.getTile(x, y) == 7) g.setColor(new Color(227, 68, 32));
-//					if(dungeon.getTile(x, y) == 8) g.setColor(new Color(136, 153, 99));
-//					if(dungeon.getTile(x, y) == 9) g.setColor(new Color(150, 181, 81));
-//					if(dungeon.getTile(x, y) == 10) g.setColor(new Color(70, 84, 37));
-//					
-//					if(dungeon.getTile(x, y) == 100) g.setColor(new Color(89, 19, 0));
-//					
-//					//g.fillRect(x * tileSize + (tileSize * dungeonSize) + xPos, y * tileSize + (tileSize * dungeonSize) + yPos, tileSize, tileSize);
-//					g.fillRect((x * tileSize) + xCam, (y * tileSize) + yCam, tileSize, tileSize);
-////					g.fillRect(x * tileSize + (dungeon.getX() * (tileSize * dungeonSize)), y * tileSize + (dungeon.getY() * (tileSize * dungeonSize)), tileSize, tileSize);
-//					
-////					g.setColor(Color.WHITE);
-////					g.drawRect((x * tileSize) + xPos, (y * tileSize) + yPos, tileSize, tileSize);
-				
+			for(int x = x0; x < x1; x++){			
 				if(Tile.tiles[currentDungeon.getTile(x, y)] == null) continue;
 				Tile.tiles[currentDungeon.getTile(x, y)].render(g, (x * tileSize) + xCam, (y * tileSize) + yCam, tileSize);
 				
@@ -228,7 +186,6 @@ public class Game {
 			}
 		}
 		for(Entity e : entities) e.render(g);
-		//player.render(g);
 	
 	}
 		

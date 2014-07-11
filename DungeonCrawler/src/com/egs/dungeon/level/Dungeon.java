@@ -55,11 +55,11 @@ public class Dungeon {
 		noise = new Noise();
 		
 		accepted = false;
-		generateDungeon();
-//		while(!accepted){
-//			generateDungeon();
-//			checkDungeon();
-//		}
+//		generateDungeon();
+		while(!accepted){
+			generateDungeon();
+			checkDungeon();
+		}
 	}
 	
 	private void checkDungeon(){

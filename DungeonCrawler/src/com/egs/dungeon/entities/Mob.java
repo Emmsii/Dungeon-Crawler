@@ -130,6 +130,12 @@ public class Mob extends Entity{
 	public void move(int x, int y){
 		if(!dungeon.checkBounds(x, y)) return;
 		if(!Tile.tiles[dungeon.getTile(x, y)].isSolid()){
+			/*
+			 * TODO: Need to fix this.
+			 * Mobs get stuck if they stand next to eachother.
+			 * 
+			 */
+			
 			if(!game.checkForEntity(x, y)){
 				setX(x);
 				setY(y);

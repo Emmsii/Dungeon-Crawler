@@ -28,6 +28,8 @@ public class Dwarf extends Mob{
 	}
 	
 	private void updateHeavy(){
+		//TODO: Improve movement ai.
+		//TODO: Should really implement line of sight...
 		wanderSettlement(sight, settlement);
 	}
 	
