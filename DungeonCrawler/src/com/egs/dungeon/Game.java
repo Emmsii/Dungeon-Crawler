@@ -41,7 +41,7 @@ public class Game {
 	public int level;
 	
 	public int dungeonSize = 128;
-	public int tileSize = 12;
+	public int tileSize = 3;
 	public int tilesW;
 	public int tilesH;
 	

@@ -94,6 +94,7 @@ public class Dungeon {
 		placeStartAndEnd();
 //		for(int i = 0; i < maxSpecialRooms; i++) placeSpecialRooms();
 		placeSpecialRooms();
+		placeSettlement();
 		 
 		while(rooms.size() < maxRooms){
 			int randomWidth = random.nextInt(15) + 6;
@@ -101,7 +102,7 @@ public class Dungeon {
 			int randomX = random.nextInt((size - 10) - 5) + 5;
 			int randomY = random.nextInt((size - 10) - 5) + 5;
 			if(!checkBounds(randomX + randomWidth, randomY + randomHeight)) continue;
-			Room possibleRoom = new Room(rooms.size(), randomX, randomY, randomWidth, randomHeight, false);
+			Room possibleRoom = new Room(rooms.size(), randomX, randomY, randomWidth, randomHeight, false, false);
 			if(roomCollides(possibleRoom)) continue;
 			rooms.add(possibleRoom);
 		}
@@ -130,8 +131,8 @@ public class Dungeon {
 	}
 	
 	private void placeStartAndEnd(){		
-		Room startRoom = new Room(0, 5, 5, 11, 11, false);
-		Room endRoom = new Room(1, size - (11 + 5), size - (11 + 5), 11, 11, false);
+		Room startRoom = new Room(0, 5, 5, 11, 11, false, false);
+		Room endRoom = new Room(1, size - (11 + 5), size - (11 + 5), 11, 11, false, false);
 		
 		start = new Coord(5 + (11 / 2), 5 + (11 / 2));
 		end = new Coord(size - (11 + 5) + (11 / 2), size - (11 + 5) + (11 / 2));
@@ -146,40 +147,12 @@ public class Dungeon {
 	}
 	
 	private void placeSpecialRooms(){
-//		String name = "testRoom";
-//		int r = random.nextInt(file.getRoomNumber()) + 1;
-//		String[] roomData = file.loadRoom(name + Integer.toString(r));
-//		int width = roomData[0].length();
-//		int height = roomData.length;
-//		
-//		int[][] finalData = new int[width][height];
-//		
-//		for(int y = 0; y < height; y++){
-//			for(int x = 0; x < width; x++){
-//				if(roomData[y].substring(x, x + 1) != null) finalData[x][y] = Integer.parseInt(roomData[y].substring(x, x + 1));
-//			}
-//		}
-//		
-//		boolean placing = true;
-//		while(placing){		
-//			int xPos = random.nextInt((size - 10) - 5) + 5;
-//			int yPos = random.nextInt((size - 10) - 5) + 5;
-//			if(!checkBounds(xPos + width, yPos + height)) continue;
-//			Room specialRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
-//			if(roomCollides(specialRoom)) continue;
-//			specialRoom.setRoomData(finalData);
-//			specialRoom.isSpecial = true;
-//			rooms.add(specialRoom);
-//			placing = false;
-//		}
-//		
-//		
-		String name = "room2";
+		String name = "rooms/room2";
 		int r = random.nextInt(file.getRoomNumber()) + 1;
 		//TODO: random select rooms here
 		int tileData[][] = file.loadRoomTileData(name);
 		int connectData[][] = file.loadConnectData(name);
-		if(tileData == null) return;
+		if(tileData == null || connectData == null) return;
 		
 		int width = tileData.length;
 		int height = tileData.length;
@@ -189,7 +162,7 @@ public class Dungeon {
 			int xPos = random.nextInt((size - 10) - 5) + 5;
 			int yPos = random.nextInt((size - 10) - 5) + 5;
 			if(!checkBounds(xPos + width, yPos + height)) continue;
-			Room specialRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
+			Room specialRoom = new Room(rooms.size(), xPos, yPos, width, height, true, false);
 			if(roomCollides(specialRoom)) continue;
 			for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) if(connectData[x][y] == 3) specialRoom.addConnectPoint(new Coord(x + xPos, y + yPos));
 			System.out.println(width + ", " + height);
@@ -199,6 +172,37 @@ public class Dungeon {
 			placing = false;
 		}
 	}
+	
+	private void placeSettlement(){
+		System.out.println("placing settlement");
+		String name = "settlements/dwarf";
+		int r = random.nextInt(file.getRoomNumber()) + 1;
+		//TODO: random select rooms here
+		int tileData[][] = file.loadRoomTileData(name);
+		int connectData[][] = file.loadConnectData(name);
+		if(tileData == null || connectData == null) return;
+		
+		int width = tileData.length;
+		int height = tileData.length;
+		
+		boolean placing = true;
+		while(placing){
+			int xPos = random.nextInt((size - 10) - 5) + 5;
+			int yPos = random.nextInt((size - 10) - 5) + 5;
+			if(!checkBounds(xPos + width, yPos + height)) continue;
+			Room settlement = new Room(rooms.size(), xPos, yPos, width, height, true, true);
+			if(roomCollides(settlement)) continue;
+			for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) if(connectData[x][y] == 3) settlement.addConnectPoint(new Coord(x + xPos, y + yPos));
+			System.out.println(width + ", " + height);
+			settlement.setRoomData(tileData);
+			rooms.add(settlement);
+			settlement = null;
+			placing = false;
+			System.out.println("settlement placed");
+
+		}
+	}
+	
 	
 	private void makeRoom(Room r){
 		if(!checkBounds(r.getX() + r.getWidth(), r.getY() + r.getHeight())) return;

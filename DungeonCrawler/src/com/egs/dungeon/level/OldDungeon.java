@@ -76,7 +76,7 @@ public class OldDungeon {
 			int yPos = random.nextInt((size - 10) - 5) + 5;
 					
 			if(!checkBounds(xPos + rWidth, yPos + rHeight)) continue;
-			Room testRoom = new Room(rooms.size(), xPos, yPos, rWidth, rHeight, false);
+			Room testRoom = new Room(rooms.size(), xPos, yPos, rWidth, rHeight, false, false);
 			if(!roomCollides(testRoom)){
 				int possibleConnections = random.nextInt(4) + 1;
 				int dir = 0;
@@ -139,8 +139,8 @@ public class OldDungeon {
 	}
 	
 	private void makeStartAndEndRooms(){
-		Room startRoom = new Room(0, 5, 5, 13, 13, false);
-		Room endRoom = new Room(1, size - (13 + 5), size - (13 + 5), 13, 13, false);
+		Room startRoom = new Room(0, 5, 5, 13, 13, false, false);
+		Room endRoom = new Room(1, size - (13 + 5), size - (13 + 5), 13, 13, false, false);
 		
 		startRoom.setHasStart(true);
 		endRoom.setHasExit(true);

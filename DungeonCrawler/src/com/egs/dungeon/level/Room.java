@@ -16,19 +16,21 @@ public class Room {
 	protected boolean hasStart;
 	protected boolean hasExit;
 	protected boolean isSpecial;
+	protected boolean isSettlement;
 	
 	protected List<Coord> coords = new ArrayList<Coord>();
 	protected List<Coord> connectPoints = new ArrayList<Coord>();
 	
 	protected int[][] roomData;
 		
-	public Room(int id, int x, int y, int width, int height, boolean isSpecial){
+	public Room(int id, int x, int y, int width, int height, boolean isSpecial, boolean isSettlement){
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.isSpecial = isSpecial;
+		this.isSettlement = isSettlement;
 		roomData = new int[width][height];
 
 		hasStart = false;
@@ -160,6 +162,14 @@ public class Room {
 
 	public void setSpecial(boolean isSpecial) {
 		this.isSpecial = isSpecial;
+	}
+
+	public boolean isSettlement() {
+		return isSettlement;
+	}
+
+	public void setSettlement(boolean isSettlement) {
+		this.isSettlement = isSettlement;
 	}
 
 	public void addConnectPoint(Coord c){

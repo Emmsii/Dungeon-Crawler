@@ -52,11 +52,11 @@ public class FileHandler {
 	}
 
 	public int getRoomNumber(){
-		return new File("res/rooms/").listFiles().length;
+		return new File("res/").listFiles().length;
 	}
 	
 	public int[][] loadRoomTileData(String name){
-		file = new File("res/rooms/" + name + ".json");
+		file = new File("res/" + name + ".json");
 		if(!file.exists()) return null;
 
 		int[] tileData;
@@ -97,7 +97,7 @@ public class FileHandler {
 	}
 	
 	public int[][] loadConnectData(String name){
-		file = new File("res/rooms/" + name +".json");
+		file = new File("res/" + name +".json");
 		if(!file.exists()) return null;
 		
 		int[] connectData;
@@ -134,24 +134,5 @@ public class FileHandler {
 		}
 		return result;
 	}
-	
-	
-//	public String[] loadRoom(String name){
-//		file = new File("res/rooms/" + name + ".txt");
-//		if(!file.exists()) return null;
-//		
-//		List<String> lines = new ArrayList<String>();
-//		String line = null;
-//		try{
-//			BufferedReader reader = new BufferedReader(new FileReader(file));
-//			while((line = reader.readLine()) != null){
-//				lines.add(line);
-//			}
-//			reader.close();
-//			return lines.toArray(new String[lines.size()]);
-//		}catch(IOException e){
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
+
 }
