@@ -268,6 +268,11 @@ public class Game {
 		return false;
 	}
 	
+	public Entity checkForEntity2(int x, int y){
+		for(Entity e : entities) if(e.getX() == x && e.getY() == y) return e;
+		return null;
+	}
+	
 	private boolean vecInList(List<Node> list, Vector2i vector){
 		for(Node n : list) if(n.getTile().equals(vector)) return true;
 		return false;

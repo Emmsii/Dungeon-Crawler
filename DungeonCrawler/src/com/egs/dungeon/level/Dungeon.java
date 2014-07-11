@@ -89,9 +89,12 @@ public class Dungeon {
 		rooms = new ArrayList<Room>();
 		corridors = new ArrayList<Corridor>();
 		
+		file.loadRoomTileData("untitled");
+		
 		placeStartAndEnd();
 //		for(int i = 0; i < maxSpecialRooms; i++) placeSpecialRooms();
-		
+		placeSpecialRooms();
+		 
 		while(rooms.size() < maxRooms){
 			int randomWidth = random.nextInt(15) + 6;
 			int randomHeight = random.nextInt(15) + 6;
@@ -143,34 +146,58 @@ public class Dungeon {
 	}
 	
 	private void placeSpecialRooms(){
-		String name = "testRoom";
+//		String name = "testRoom";
+//		int r = random.nextInt(file.getRoomNumber()) + 1;
+//		String[] roomData = file.loadRoom(name + Integer.toString(r));
+//		int width = roomData[0].length();
+//		int height = roomData.length;
+//		
+//		int[][] finalData = new int[width][height];
+//		
+//		for(int y = 0; y < height; y++){
+//			for(int x = 0; x < width; x++){
+//				if(roomData[y].substring(x, x + 1) != null) finalData[x][y] = Integer.parseInt(roomData[y].substring(x, x + 1));
+//			}
+//		}
+//		
+//		boolean placing = true;
+//		while(placing){		
+//			int xPos = random.nextInt((size - 10) - 5) + 5;
+//			int yPos = random.nextInt((size - 10) - 5) + 5;
+//			if(!checkBounds(xPos + width, yPos + height)) continue;
+//			Room specialRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
+//			if(roomCollides(specialRoom)) continue;
+//			specialRoom.setRoomData(finalData);
+//			specialRoom.isSpecial = true;
+//			rooms.add(specialRoom);
+//			placing = false;
+//		}
+//		
+//		
+		String name = "room2";
 		int r = random.nextInt(file.getRoomNumber()) + 1;
-		String[] roomData = file.loadRoom(name + Integer.toString(r));
-		int width = roomData[0].length();
-		int height = roomData.length;
+		//TODO: random select rooms here
+		int tileData[][] = file.loadRoomTileData(name);
+		int connectData[][] = file.loadConnectData(name);
+		if(tileData == null) return;
 		
-		int[][] finalData = new int[width][height];
-		
-		for(int y = 0; y < height; y++){
-			for(int x = 0; x < width; x++){
-				if(roomData[y].substring(x, x + 1) != null) finalData[x][y] = Integer.parseInt(roomData[y].substring(x, x + 1));
-			}
-		}
+		int width = tileData.length;
+		int height = tileData.length;
 		
 		boolean placing = true;
-		while(placing){		
+		while(placing){
 			int xPos = random.nextInt((size - 10) - 5) + 5;
 			int yPos = random.nextInt((size - 10) - 5) + 5;
 			if(!checkBounds(xPos + width, yPos + height)) continue;
 			Room specialRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
 			if(roomCollides(specialRoom)) continue;
-			specialRoom.setRoomData(finalData);
-			specialRoom.isSpecial = true;
+			for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) if(connectData[x][y] == 3) specialRoom.addConnectPoint(new Coord(x + xPos, y + yPos));
+			System.out.println(width + ", " + height);
+			specialRoom.setRoomData(tileData);
 			rooms.add(specialRoom);
+			specialRoom = null;
 			placing = false;
 		}
-		
-		
 	}
 	
 	private void makeRoom(Room r){

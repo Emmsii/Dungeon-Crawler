@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="res"/>
 	<classpathentry kind="lib" path="lib"/>
 	<classpathentry kind="lib" path="lib/rlforj.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Matt/git/dungeon_crawler/DungeonCrawler/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

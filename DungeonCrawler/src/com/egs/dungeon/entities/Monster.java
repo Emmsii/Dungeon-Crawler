@@ -36,8 +36,12 @@ public class Monster extends Mob{
 	
 	private void updateHeavy(){
 //		wander(30);
-		followMob(game.player, 30);
+//		followMob(game.player, 30);
 //		move();
+		
+		if(time % 60 == 0){
+			
+		}
 	}
 	
 	public void render(Graphics2D g){

@@ -149,67 +149,67 @@ public class OldDungeon {
 		rooms.add(endRoom);
 	}
 	
-	private void placeSpecialRooms(){
-		String name = "testRoom";
-		int r = random.nextInt(file.getRoomNumber()) + 1;
-		String[] roomData = file.loadRoom(name + Integer.toString(r));
-				
-		int width = roomData[0].length();
-		int height = roomData.length;
-		
-		int[][] finalData = new int[width][height];
-		
-		for(int y = 0; y < height; y++){
-			for(int x = 0; x < width; x++){
-				if(roomData[y].substring(x, x + 1) != null) finalData[x][y] = Integer.parseInt(roomData[y].substring(x, x + 1));
-			}
-		}
-		
-		boolean placing = true;
-		int tries = 0;
-		while(placing){
-			tries++;
-			if(tries > 100) break;
-			int xPos = random.nextInt((size - 10) - 5) + 5;
-			int yPos = random.nextInt((size - 10) - 5) + 5;
-			boolean collides = false;
-			for(Room room : rooms) for(Coord c : room.getCoords()){
-				if(c.getX() == xPos - 2 && c.getY() == yPos - 2) collides = true;
-				if(c.getX() == xPos + 2 && c.getY() == yPos + 2) collides = true;
-			}
-			if(collides) continue;
-			if(!checkBounds(xPos + width, yPos + height)) continue;
-			Room testRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
-			if(!roomCollides(testRoom)) {
-				testRoom.setRoomData(finalData);
-				int possibleConnections = random.nextInt(4) + 1;
-				int dir = 0;
-				for(int i = 0; i < possibleConnections; i++){
-					dir = random.nextInt(4);
-					switch(dir){
-						case 0:
-							testRoom.addConnectPoint(new Coord(testRoom.getX(), testRoom.getCenterY()));
-							break;
-						case 1:
-							testRoom.addConnectPoint(new Coord(testRoom.getX() + testRoom.getWidth(), testRoom.getCenterY()));
-							break;
-						case 2:
-							testRoom.addConnectPoint(new Coord(testRoom.getCenterX(), testRoom.getY() + testRoom.getHeight()));
-							break;
-						case 3: 
-							testRoom.addConnectPoint(new Coord(testRoom.getCenterX(), testRoom.getY()));
-							break;
-						default:
-							testRoom.addConnectPoint(new Coord(testRoom.getX(), testRoom.getCenterY()));
-							break;	
-					}
-				}
-				rooms.add(testRoom);
-				placing = false;
-			}
-		}
-		
-	}
+//	private void placeSpecialRooms(){
+//		String name = "testRoom";
+//		int r = random.nextInt(file.getRoomNumber()) + 1;
+//		String[] roomData = file.loadRoom(name + Integer.toString(r));
+//				
+//		int width = roomData[0].length();
+//		int height = roomData.length;
+//		
+//		int[][] finalData = new int[width][height];
+//		
+//		for(int y = 0; y < height; y++){
+//			for(int x = 0; x < width; x++){
+//				if(roomData[y].substring(x, x + 1) != null) finalData[x][y] = Integer.parseInt(roomData[y].substring(x, x + 1));
+//			}
+//		}
+//		
+//		boolean placing = true;
+//		int tries = 0;
+//		while(placing){
+//			tries++;
+//			if(tries > 100) break;
+//			int xPos = random.nextInt((size - 10) - 5) + 5;
+//			int yPos = random.nextInt((size - 10) - 5) + 5;
+//			boolean collides = false;
+//			for(Room room : rooms) for(Coord c : room.getCoords()){
+//				if(c.getX() == xPos - 2 && c.getY() == yPos - 2) collides = true;
+//				if(c.getX() == xPos + 2 && c.getY() == yPos + 2) collides = true;
+//			}
+//			if(collides) continue;
+//			if(!checkBounds(xPos + width, yPos + height)) continue;
+//			Room testRoom = new Room(rooms.size(), xPos, yPos, width, height, true);
+//			if(!roomCollides(testRoom)) {
+//				testRoom.setRoomData(finalData);
+//				int possibleConnections = random.nextInt(4) + 1;
+//				int dir = 0;
+//				for(int i = 0; i < possibleConnections; i++){
+//					dir = random.nextInt(4);
+//					switch(dir){
+//						case 0:
+//							testRoom.addConnectPoint(new Coord(testRoom.getX(), testRoom.getCenterY()));
+//							break;
+//						case 1:
+//							testRoom.addConnectPoint(new Coord(testRoom.getX() + testRoom.getWidth(), testRoom.getCenterY()));
+//							break;
+//						case 2:
+//							testRoom.addConnectPoint(new Coord(testRoom.getCenterX(), testRoom.getY() + testRoom.getHeight()));
+//							break;
+//						case 3: 
+//							testRoom.addConnectPoint(new Coord(testRoom.getCenterX(), testRoom.getY()));
+//							break;
+//						default:
+//							testRoom.addConnectPoint(new Coord(testRoom.getX(), testRoom.getCenterY()));
+//							break;	
+//					}
+//				}
+//				rooms.add(testRoom);
+//				placing = false;
+//			}
+//		}
+//		
+//	}
 
 	private void placeStartAndEnd(){
 		Room startRoom = rooms.get(0);
