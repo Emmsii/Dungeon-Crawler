@@ -11,12 +11,10 @@ import java.util.Random;
 import rlforj.los.IFovAlgorithm;
 import rlforj.los.ShadowCasting;
 
-import com.egs.dungeon.entities.Dwarf;
 import com.egs.dungeon.entities.Entity;
 import com.egs.dungeon.entities.Player;
 import com.egs.dungeon.level.Dungeon;
 import com.egs.dungeon.level.LOSBoard;
-import com.egs.dungeon.level.Room;
 import com.egs.dungeon.level.Tile;
 import com.egs.dungeon.util.FileHandler;
 import com.egs.dungeon.util.InputHandler;
@@ -42,7 +40,7 @@ public class Game {
 	public int level;
 	
 	public int dungeonSize = 128;
-	public int tileSize = 3;
+	public int tileSize = 12;
 	public int tilesW;
 	public int tilesH;
 	
@@ -71,11 +69,13 @@ public class Game {
 	private void init(){
 		file.newWorldFolder("TEST");
 		file.loadTiles();
+		file.loadEntities();
 		level = 1;
 		currentDungeon = new Dungeon(dungeonSize, seed, level, file, this);
 		currentDungeon.init();
 		
 		board = new LOSBoard(dungeonSize);
+		fovAl = new ShadowCasting();
 		
 		for(int y = 0; y < dungeonSize; y++){
 			for(int x = 0; x < dungeonSize; x++){
@@ -83,16 +83,12 @@ public class Game {
 			}
 		}
 		
-		player = new Player(entities.size(), currentDungeon.getStart().getX(), currentDungeon.getStart().getY(), 12, "P", input, currentDungeon, this, board, main);	
-				
-		endX = currentDungeon.getStart().getX();
-		endY = currentDungeon.getStart().getY();
+		player = new Player(entities.size(), currentDungeon.getStart().getX(), currentDungeon.getStart().getY(), "P", 0.0, 12, this, currentDungeon, main, input, board);
 
 		entities.add(player);
-		//entities.add(new Monster(entities.size(), currentDungeon.getStart().getX() + 2, currentDungeon.getStart().getY() + 2, 30, "g", this, currentDungeon));
 		
-		int currentPop = 0;
-		int maxPop = 50;
+		endX = currentDungeon.getEnd().getX();
+		endY = currentDungeon.getEnd().getY();
 				
 		/*
 		 * TODO: Need to refine this.
@@ -100,32 +96,25 @@ public class Game {
 		 * Which means settlement files need a type value.
 		 */
 		
-		for(Room r : currentDungeon.getRooms()){
-			if(r.isSettlement()){
-				while(currentPop < maxPop){
-					int rx = random.nextInt(dungeonSize);
-					int ry = random.nextInt(dungeonSize);
-					if(rx > r.getX() && rx <= r.getX() + r.getWidth() && ry > r.getY() && ry <= r.getY() + r.getHeight()){
-						if(currentDungeon.getTile(rx, ry) != 1) continue;
-						currentPop++;
-						Dwarf dwarf = new Dwarf(entities.size(), rx, ry, 15, "D", this, currentDungeon);
-						dwarf.setSettlement(r);
-						entities.add(dwarf);
-					}
-				}
-			}
-		}
+//		for(Room r : currentDungeon.getRooms()){
+//			if(r.isSettlement()){
+//				while(currentPop < maxPop){
+//					int rx = random.nextInt(dungeonSize);
+//					int ry = random.nextInt(dungeonSize);
+//					if(rx > r.getX() && rx <= r.getX() + r.getWidth() && ry > r.getY() && ry <= r.getY() + r.getHeight()){
+//						if(currentDungeon.getTile(rx, ry) != 1) continue;
+//						currentPop++;
+//						Dwarf dwarf = new Dwarf(entities.size(), rx, ry, 15, "D", this, currentDungeon);
+//						dwarf.setSettlement(r);
+//						entities.add(dwarf);
+//					}
+//				}
+//			}
+//		}
 		
 		
-		fovAl = new ShadowCasting();
 		
-		//Create dungeon.
-		//Pick room from file based off seed.
-		//First, place wall rooms and corner rooms.
-		//Then place center rooms.
-		//Place start and finish.
-		//Place rooms.
-		//Done
+
 	}
 	
 	public void nextLevel(){
@@ -153,8 +142,7 @@ public class Game {
 		for(Entity e : entities) e.update();
 		fovAl.visitFieldOfView(board, player.getX(), player.getY(), player.getSight());
 
-		//TODO: Fix this, still broken.
-//		if(player.getX() == endX && player.getY() == endY) nextLevel();		
+		if(player.getX() == endX && player.getY() == endY) nextLevel();		
 	}
 		
 	public void render(Graphics2D g){		

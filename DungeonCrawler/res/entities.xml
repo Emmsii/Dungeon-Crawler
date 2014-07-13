@@ -1,0 +1,5 @@
+<entities>
+	<entity key="skeleton" name="Skeleton" icon="S" karma="-25.0" sight="12"/>
+	<entity key="dwarf" name="Dwarf" icon="D" karma="+25.0" sight="12"/>
+	<entity key="rat" name="Rat" icon="r" karma="0.0" sight="5"/>
+</entities>

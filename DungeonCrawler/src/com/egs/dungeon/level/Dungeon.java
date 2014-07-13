@@ -55,11 +55,11 @@ public class Dungeon {
 		noise = new Noise();
 		
 		accepted = false;
-//		generateDungeon();
-		while(!accepted){
-			generateDungeon();
-			checkDungeon();
-		}
+		generateDungeon();
+//		while(!accepted){
+//			generateDungeon();
+//			checkDungeon();
+//		}
 	}
 	
 	private void checkDungeon(){
@@ -94,6 +94,7 @@ public class Dungeon {
 		placeStartAndEnd();
 //		for(int i = 0; i < maxSpecialRooms; i++) placeSpecialRooms();
 		placeSpecialRooms();
+		//TODO: Make settlements their own object, not Rooms.
 		placeSettlement();
 		 
 		while(rooms.size() < maxRooms){

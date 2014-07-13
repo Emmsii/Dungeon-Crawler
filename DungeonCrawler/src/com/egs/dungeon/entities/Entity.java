@@ -7,24 +7,25 @@ import com.egs.dungeon.Game;
 import com.egs.dungeon.level.Dungeon;
 
 public class Entity {
-
+	
 	protected Game game;
-	protected Random random;
 	protected Dungeon dungeon;
+	protected Random random;
 	
 	protected int id;
 	protected int x;
 	protected int y;
 	
-	protected Entity(int id, int x, int y, Game game, Dungeon dungeon){
-		this.id = id;
-		this.x = x;
-		this.y = y;
+	public Entity(int id, int x, int y, Game game, Dungeon dungeon){
 		this.game = game;
 		this.dungeon = dungeon;
 		random = new Random();
+		
+		this.id = id;
+		this.x = x;
+		this.y = y;
 	}
-
+	
 	public void render(Graphics2D g){
 		
 	}
@@ -32,7 +33,23 @@ public class Entity {
 	public void update(){
 		
 	}
-	
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public Dungeon getDungeon() {
+		return dungeon;
+	}
+
+	public void setDungeon(Dungeon dungeon) {
+		this.dungeon = dungeon;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -55,13 +72,5 @@ public class Entity {
 
 	public void setY(int y) {
 		this.y = y;
-	}
-
-	public Dungeon getDungeon() {
-		return dungeon;
-	}
-
-	public void setDungeon(Dungeon dungeon) {
-		this.dungeon = dungeon;
 	}
 }

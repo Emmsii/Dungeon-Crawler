@@ -3,9 +3,9 @@
 	
 	<tile name="Floor" id="1" solid="0" rgb="176,164,151"/>
 	<tile name="Wall" id="2" solid="1" rgb="89,79,69"/>
-	<tile name="Door" id="3" soli="0" rgb="163,115,75"/>
+	<tile name="Door" id="3" solid="0" rgb="163,115,75"/>
 	
-	<tile name="Start" id="4" soli="0" rgb="255,119,0"/>
+	<tile name="Start" id="4" solid="0" rgb="255,119,0"/>
 	<tile name="End" id="5" solid="0" rgb="183,0,255"/>
 	
 	<tile name="Water" id="6" solid="0" liquid="1" rgb="163,115,75"/>

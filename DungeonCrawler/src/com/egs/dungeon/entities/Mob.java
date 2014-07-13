@@ -1,150 +1,66 @@
 package com.egs.dungeon.entities;
 
-import java.util.List;
+import java.awt.Graphics2D;
 
 import com.egs.dungeon.Game;
 import com.egs.dungeon.level.Dungeon;
-import com.egs.dungeon.level.Room;
 import com.egs.dungeon.level.Tile;
-import com.egs.dungeon.util.Node;
-import com.egs.dungeon.util.Vector2i;
 
 public class Mob extends Entity{
-	
-	protected boolean moving;
-	protected int moveX;
-	protected int moveY;
-	protected long time;
-	
+
+	protected String type;
+	protected String icon;
 	protected double karma;
 	protected int sight;
 	
-	protected String icon;
-	
+	protected boolean moving;
 	protected boolean onScreen;
+	protected int time;
 	
-	protected int rx;
-	protected int ry;
-	
-	protected Mob(int id, int x, int y, int sight, String icon, Game game, Dungeon dungeon) {
+	public Mob(int id, String type, String icon, double karma, int sight, int x, int y, Game game, Dungeon dungeon){
 		super(id, x, y, game, dungeon);
-		this.sight = sight;
+		this.type = type;
 		this.icon = icon;
+		this.karma = karma;
+		this.sight = sight;
 		
 		moving = false;
-		karma = 0.0;
 		time = random.nextInt(60);
 	}
-
-	public void wander(int speed){
-		if(!moving && time % 80 == 0){
-			int tries = 0;
-			while(!moving){
-				tries++;
-				if(tries >= 50) break;
-				rx = x + random.nextInt(10) - 5;
-				ry = y + random.nextInt(10) - 5;
-				
-				if(!dungeon.checkBounds(rx, ry)) continue;;
-				if(Tile.tiles[dungeon.getTile(x, y)].isSolid()) continue;
-				
-				List<Node> path = game.pathFind(new Vector2i(x, y), new Vector2i(rx, ry), sight);
-				if(path == null) continue;
-				else{
-					moving = true;
-					tries = 0;
-				}
-			}
-			tries = 0;
-		}
-
-		pathTo(new Vector2i(x, y), new Vector2i(rx, ry), speed);
-	}
 	
-	public void wanderSettlement(int speed, Room room){
-		if(!moving && time % 80 == 0){
-			int tries = 0;
-			while(!moving){
-				tries++;
-				if(tries >= 50) break;
-				rx = x + random.nextInt(10) - 5;
-				ry = y + random.nextInt(10) - 5;
-				
-				if(!dungeon.checkBounds(rx, ry)) continue;;
-				if(Tile.tiles[dungeon.getTile(x, y)].isSolid()) continue;
-				if(rx > room.getX() && rx <= room.getX() + room.getWidth() && ry > room.getY() && ry <= room.getY() + room.getHeight()){
-					List<Node> path = game.pathFind(new Vector2i(x, y), new Vector2i(rx, ry), sight);
-					if(path == null) continue;
-					else{
-						moving = true;
-						tries = 0;
-					}
-				}else continue;
-			}
-			tries = 0;
-		}
-
-		pathTo(new Vector2i(x, y), new Vector2i(rx, ry), speed);
-	}
-	
-	public void followMob(Mob target, int speed){
-		pathToEntity(new Vector2i(x, y), new Vector2i(target.getX(), target.getY()), speed);
-	}
-	
-	private void pathTo(Vector2i start, Vector2i target, int speed){
-		List<Node> path = null;
-		if(time % speed == 0) path = game.pathFind(start, target, sight);
+	public void render(Graphics2D g){
 		
-		if(path != null){
-			if(path.size() > 0){
-				moving = true;
-				Vector2i vec = path.get(path.size() - 1).getTile();
-				if(x < vec.getX()) move(x + 1, y);
-				if(x > vec.getX()) move(x - 1, y);
-				if(y < vec.getY()) move(x, y + 1);
-				if(y > vec.getY()) move(x, y - 1);
-			}else{
-				moving = false;
-			}
-		}
 	}
 	
-	private void pathToEntity(Vector2i start, Vector2i target, int speed){
-		List<Node> path = null;
-		if(time % speed == 0) path = game.pathFind(start, target, sight);
+	public void update(){
+		time++;
+		if(time % 60 == 0) checkIfOnScreen();
 		
-		if(path != null){
-			if(path.size() > 0){
-				moving = true;
-				Vector2i vec = path.get(path.size() - 1).getTile();
-				if(x < vec.getX()) move(x + 1, y);
-				if(x > vec.getX()) move(x - 1, y);
-				if(y < vec.getY()) move(x, y + 1);
-				if(y > vec.getY()) move(x, y - 1);
-			}else{
-				moving = false;
-			}
-		}
+		if(onScreen) updateHeavy();
+		else updateLite();
 	}
+	
+	private void updateLite(){
+		
+	}
+	
+	private void updateHeavy(){
+		
+	}
+	
+	/*
+	 * Util Methods
+	 */
 	
 	public void move(int x, int y){
 		if(!dungeon.checkBounds(x, y)) return;
 		if(!Tile.tiles[dungeon.getTile(x, y)].isSolid()){
-			/*
-			 * TODO: Need to fix this.
-			 * Mobs get stuck if they stand next to eachother.
-			 * 
-			 */
-			
+			//TODO: Seriously, fix this code. It breaks so much.
 			if(!game.checkForEntity(x, y)){
 				setX(x);
 				setY(y);
-			}else{
-				return;
-			}
-		}else{
-			return;
-		}
+			}else return;
+		}else return;
 	}
 	
 	public void checkIfOnScreen(){
@@ -152,12 +68,35 @@ public class Mob extends Entity{
 		else onScreen = false;
 	}
 	
-	public boolean isMoving() {
-		return moving;
+	public void addKarma(double karma){
+		//TODO: Add max/min karma values;
+		if(this.karma + karma >= 100.0) this.karma = 100.0;
+		else this.karma += karma;
+	}
+	
+	public void removeKarma(double karma){
+		if(this.karma - karma <= -100.0) this.karma = -100.0;
+		else this.karma -= karma;
+	}
+	
+	/*
+	 * Getters and Setters
+	 */
+
+	public String getType() {
+		return type;
 	}
 
-	public void setMoving(boolean moving) {
-		this.moving = moving;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	public double getKarma() {
@@ -168,22 +107,20 @@ public class Mob extends Entity{
 		this.karma = karma;
 	}
 
-	public void addKarma(double karma){
-		if(this.karma + karma >= 100.0) this.karma = 100.0;
-		else this.karma += karma;
-	}
-	
-	public void removeKarma(double karma){
-		if(this.karma - karma <= -100.0) this.karma = -100.0;
-		else this.karma -= karma;
-	}
-	
 	public int getSight() {
 		return sight;
 	}
 
 	public void setSight(int sight) {
 		this.sight = sight;
+	}
+
+	public boolean isMoving() {
+		return moving;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
 	}
 
 	public boolean isOnScreen() {
@@ -194,11 +131,4 @@ public class Mob extends Entity{
 		this.onScreen = onScreen;
 	}
 
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
 }

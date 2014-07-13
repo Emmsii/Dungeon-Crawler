@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.egs.dungeon.entities.Entity;
 import com.egs.dungeon.level.Tile;
 
 public class FileHandler {
@@ -50,9 +51,33 @@ public class FileHandler {
 			}
 		}
 	}
+	
+	public void loadEntities(){
+
+	}
 
 	public int getRoomNumber(){
 		return new File("res/").listFiles().length;
+	}
+	
+	public String getSettlementType(String name){
+		file = new File("res/" + name + ".json");
+		if(!file.exists()) return null;
+		String type = null;
+		try{
+			FileReader reader = new FileReader(file);
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+			type = (String) jsonObject.get("type");
+		}catch(IOException e){
+			e.printStackTrace();
+			return null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return type;
 	}
 	
 	public int[][] loadRoomTileData(String name){
