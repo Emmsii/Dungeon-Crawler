@@ -53,10 +53,10 @@ Todo List:
 ===============
 
 Combat:
-I don't have a clue on how to combat.
-Don't want to have: walk up to mob, mash keys till dead.
-Don't want to have insane, Dwarf Fortress style, detailed combat.
-HELP!
++ I don't have a clue on how to combat.
++ Don't want to have: walk up to mob, mash keys till dead.
++ Don't want to have insane, Dwarf Fortress style, detailed combat.
++ HELP!
 
 Fluids:
 + Fluid has height, type & temperature.
