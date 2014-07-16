@@ -49,14 +49,33 @@ Todo List:
   + Karma level determines mobs actions.
   + Karma is affected by mob actions.
   + Mobs will dislike mobs with opposite karma.
++ Quests
 
 ===============
+
+Objects:
++ Things like doors, tables, chests, beds, chairs, wells.
++ Object placement in settlements is based of .json file, not randomly generated.
++ Objects not in settlements are randomly generated.
++ Doors are placed at room connection points. 
+  + Not all connection points will have doors.
+  + Some doors could be locked?
+    + May cause problems by creating unpathable dungeons.
+    + Locked doors could be in settlements.
+    + Keys may be scattered around dungeon.
+    + Some doors could be picked.
++ Mobs can interact with objects.
++ Some objects are moveable. Tables, chairs, etc.
++ Loading object details same as loading entity details.
 
 Combat:
 + I don't have a clue on how to combat.
 + Don't want to have: walk up to mob, mash keys till dead.
 + Don't want to have insane, Dwarf Fortress style, detailed combat.
 + HELP!
++ Mobs with vastly different karma values will fight eachother. 
+  + Combat wont be as detailed as player v mob combat.
++ Mob combat stats come from entity.xml file.
 
 Fluids:
 + Fluid has height, type & temperature.
