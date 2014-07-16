@@ -2,8 +2,9 @@ Dungeon-Crawler
 ===============
 
 A randomly generated dungeon crawler made in Java (Requires Java 1.7).
-
 ===============
+
+Note: The term mob includes the player, as well as all other creatures.
 
 Current Features:
 + Random dungeon generation.
@@ -29,6 +30,8 @@ Todo List:
   + Meeding rooms.
 + Combat.
 + Player stats.
++ Mobs can decide to join/follow player, become allies.
+  + Allies defend player.
 + Shadow falloff from FOV.
 + Basic Fluids
   + Fluids make floor wet/slippery.
@@ -39,11 +42,33 @@ Todo List:
 + Cave systems.  
   + Specific mobs live/spawn in caves.
   + Plants could grow.
-  
++ Karma.
+  + Good or evil meter.
+  + All mobs affected.
+  + Karma level determines mobs actions.
+  + Karma is affected by mob actions.
+  + Mobs will dislike mobs with opposite karma.
 ===============
 
 Combat:
 
 Fluids:
-
++ Fluid has height, type & temperature.
+  + Hight determines how much of the fluid there is in a single tile.
+  + Type is what type of fluid is is.
+  + Temperature is self explanatory.
++ Height:
+  + Levels 1-5.
+    + 1 is a small puddle & 5 is an entire tile of the fluid.
+  + If there is an empty tile or a tile with less than 5 adjacent to a fluid tile. And the fluid tile has more than 1. Then the fluid can spread to an adjacent tile.
+  + Fluid will continue to spread until there is nowhere else to go or the fluid tiles all become 1.
++ Type:
+  + Depending on the type of fluid. It will evaporate over time.
+  + If lava and water connect, they could form a solid block that mobs can break.
++ Temperature:
+  + Hot water will become steam. (No need for steam physics, just have evaporate)
+  + Fluid on the temperature, all tiles adjacent to fluid tile will be heated or cooled down.
+  + Items, objects, mobs will burn if fluid is too hot.
++ Preasure?
+ 
 ===============
