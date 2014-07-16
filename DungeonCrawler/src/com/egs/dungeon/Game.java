@@ -12,9 +12,11 @@ import rlforj.los.IFovAlgorithm;
 import rlforj.los.ShadowCasting;
 
 import com.egs.dungeon.entities.Entity;
+import com.egs.dungeon.entities.Mob;
 import com.egs.dungeon.entities.Player;
 import com.egs.dungeon.level.Dungeon;
 import com.egs.dungeon.level.LOSBoard;
+import com.egs.dungeon.level.Settlement;
 import com.egs.dungeon.level.Tile;
 import com.egs.dungeon.util.FileHandler;
 import com.egs.dungeon.util.InputHandler;
@@ -69,12 +71,13 @@ public class Game {
 	private void init(){
 		file.newWorldFolder("TEST");
 		file.loadTiles();
-		file.loadEntities();
 		level = 1;
 		currentDungeon = new Dungeon(dungeonSize, seed, level, file, this);
 		currentDungeon.init();
 		
 		board = new LOSBoard(dungeonSize);
+		
+		//TODO: FIX ME! FOR THE LOVE OF GOD!
 		fovAl = new ShadowCasting();
 		
 		for(int y = 0; y < dungeonSize; y++){
@@ -83,8 +86,11 @@ public class Game {
 			}
 		}
 		
-		player = new Player(entities.size(), currentDungeon.getStart().getX(), currentDungeon.getStart().getY(), "P", 0.0, 12, this, currentDungeon, main, input, board);
-
+		player = new Player(entities.size(), currentDungeon.getStart().getX(), currentDungeon.getStart().getY(), "P", "PLAYER", 0.0, 12, this, currentDungeon, main, input, board);
+		Mob dwarf = new Mob(10, "dwarf", "D", "Dwarf", 25.0, 12, 8, 8, this, currentDungeon);
+		//public Mob(int id, String type, String icon, double karma, int sight, int x, int y, Game game, Dungeon dungeon){
+		
+		entities.add(dwarf);
 		entities.add(player);
 		
 		endX = currentDungeon.getEnd().getX();
@@ -95,6 +101,28 @@ public class Game {
 		 * Should create mob based of settlement type.
 		 * Which means settlement files need a type value.
 		 */
+				
+		if(currentDungeon.getSettlement() != null){
+			System.out.println("NOT NULL");
+			Settlement s = currentDungeon.getSettlement();
+			int currentPop = 0;
+			while(currentPop < s.getMaxPop()){
+				System.out.println(s.getMaxPop());
+				int rx = random.nextInt(dungeonSize);
+				int ry = random.nextInt(dungeonSize);
+				if(rx > s.getX() && rx <= s.getX() + s.getWidth() && ry > s.getY() && ry <= s.getY() + s.getHeight()){
+					System.out.println("in bounds");
+					if(currentDungeon.getTile(rx, ry) != 1) continue;
+					currentPop++;
+					Mob mob = file.loadEntity(s.getType(), entities.size(), rx, ry, this, currentDungeon);
+					mob.setSettlement(s);
+					entities.add(mob);
+					System.out.println("Adding mob");
+					//TODO: Get mob attributes from .xml file based of settlement type. 
+					//Mob mob = new Mob(entities.size(), s.getType(), ".", rx, ry, ".")
+				}
+			}
+		}
 		
 //		for(Room r : currentDungeon.getRooms()){
 //			if(r.isSettlement()){

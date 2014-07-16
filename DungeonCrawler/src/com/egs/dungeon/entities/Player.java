@@ -16,8 +16,8 @@ public class Player extends Mob{
 	private InputHandler input;
 	private MainComponent main;
 	
-	public Player(int id, int x, int y, String icon, double karma, int sight, Game game, Dungeon dungeon, MainComponent main, InputHandler input, LOSBoard board){
-		super(id, "player", icon, karma, sight, x, y, game, dungeon);
+	public Player(int id, int x, int y, String icon, String name, double karma, int sight, Game game, Dungeon dungeon, MainComponent main, InputHandler input, LOSBoard board){
+		super(id, "player", icon, name, karma, sight, x, y, game, dungeon);
 		this.board = board;
 		this.input = input;
 		this.main = main;

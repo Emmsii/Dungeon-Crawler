@@ -13,7 +13,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.egs.dungeon.entities.Entity;
+import com.egs.dungeon.Game;
+import com.egs.dungeon.entities.Mob;
+import com.egs.dungeon.level.Dungeon;
 import com.egs.dungeon.level.Tile;
 
 public class FileHandler {
@@ -52,12 +54,49 @@ public class FileHandler {
 		}
 	}
 	
-	public void loadEntities(){
-
+	public Mob loadEntity(String type, int id, int x, int y, Game game, Dungeon dungeon){
+		XMLHandler xml = new XMLHandler("entities.xml");
+		Document doc = xml.asDocument();
+		NodeList entityNodes = doc.getElementsByTagName("entities");
+		for(int i = 0; i < entityNodes.getLength(); i++){
+			Node n = entityNodes.item(i);
+			NodeList entity = ((Element) n).getElementsByTagName("entity");
+			for(int j = 0; j < entity.getLength(); j++){
+				Element e = (Element) entity.item(j);
+				if(e.getAttribute("key").equalsIgnoreCase(type)) return new Mob(id, type, e.getAttribute("icon"), e.getAttribute("name"), Double.parseDouble(e.getAttribute("karma")), Integer.parseInt(e.getAttribute("sight")), x, y, game, dungeon);
+				//public Mob(int id, String type, String icon, String name, double karma, int sight, int x, int y, Game game, Dungeon dungeon){
+			}
+		}
+		return null;
 	}
 
 	public int getRoomNumber(){
 		return new File("res/").listFiles().length;
+	}
+	
+	public int getSettlementNumber(){
+		return new File("res/settlements/").listFiles().length;
+	}
+	
+	public int getSettlementMaxPop(String name){
+		file = new File("res/" + name + ".json");
+		if(!file.exists()) return 0;
+		long maxPop = 0;
+		try{
+			FileReader reader = new FileReader(file);
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+			maxPop = (long) jsonObject.get("maxPop");
+			System.out.println("MAX POP: " + maxPop);
+		}catch(IOException e){
+			e.printStackTrace();
+			return 0;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		return (int) maxPop;
 	}
 	
 	public String getSettlementType(String name){

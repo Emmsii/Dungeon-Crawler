@@ -22,6 +22,7 @@ public class Dungeon {
 	protected long seed;
 	protected int level;
 	
+	protected Settlement settlement;
 	protected List<Room> rooms;
 	protected List<Corridor> corridors;
 	
@@ -94,7 +95,6 @@ public class Dungeon {
 		placeStartAndEnd();
 //		for(int i = 0; i < maxSpecialRooms; i++) placeSpecialRooms();
 		placeSpecialRooms();
-		//TODO: Make settlements their own object, not Rooms.
 		placeSettlement();
 		 
 		while(rooms.size() < maxRooms){
@@ -108,6 +108,7 @@ public class Dungeon {
 			rooms.add(possibleRoom);
 		}
 		for(Room r : rooms) makeRoom(r);
+		makeRoom(settlement);
 
 		for(int i = 0; i < rooms.size(); i++){
 			Room room = rooms.get(i);
@@ -176,28 +177,30 @@ public class Dungeon {
 	
 	private void placeSettlement(){
 		System.out.println("placing settlement");
-		String name = "settlements/dwarf";
-		int r = random.nextInt(file.getRoomNumber()) + 1;
-		//TODO: random select rooms here
-		int tileData[][] = file.loadRoomTileData(name);
-		int connectData[][] = file.loadConnectData(name);
+		String name = "settlements/s";
+		int r = random.nextInt(file.getSettlementNumber()) + 1;
+		int tileData[][] = file.loadRoomTileData(name + r);
+		int connectData[][] = file.loadConnectData(name + r);
 		if(tileData == null || connectData == null) return;
 		
 		int width = tileData.length;
 		int height = tileData.length;
-		
+		String type = file.getSettlementType(name + r);
+		int maxPop = file.getSettlementMaxPop(name + r);
+		System.out.println(type);
+		System.out.println(maxPop);
 		boolean placing = true;
 		while(placing){
 			int xPos = random.nextInt((size - 10) - 5) + 5;
 			int yPos = random.nextInt((size - 10) - 5) + 5;
 			if(!checkBounds(xPos + width, yPos + height)) continue;
-			Room settlement = new Room(rooms.size(), xPos, yPos, width, height, true, true);
-			if(roomCollides(settlement)) continue;
-			for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) if(connectData[x][y] == 3) settlement.addConnectPoint(new Coord(x + xPos, y + yPos));
+			Settlement settle = new Settlement(rooms.size(), type, maxPop, xPos, yPos, width, height, true, true);
+			if(roomCollides(settle)) continue;
+			for(int y = 0; y < height; y++) for(int x = 0; x < width; x++) if(connectData[x][y] == 3) settle.addConnectPoint(new Coord(x + xPos, y + yPos));
 			System.out.println(width + ", " + height);
-			settlement.setRoomData(tileData);
-			rooms.add(settlement);
-			settlement = null;
+			settle.setRoomData(tileData);
+			settlement = settle;
+			settle = null;
 			placing = false;
 			System.out.println("settlement placed");
 
@@ -354,6 +357,14 @@ public class Dungeon {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public Settlement getSettlement() {
+		return settlement;
+	}
+
+	public void setSettlement(Settlement settlement) {
+		this.settlement = settlement;
 	}
 
 	public Coord getStart(){
