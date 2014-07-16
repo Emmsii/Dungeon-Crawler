@@ -5,9 +5,9 @@ A randomly generated dungeon crawler made in Java (Requires Java 1.7).
 
 ===============
 
-Note: The term mob includes the player, as well as all other creatures.
+*Note: The term mob includes the player, as well as all other creatures.*
 
-Current Features:
+**Current Features:**
 + Random dungeon generation.
 + Place custom, user made rooms and settlements in dungeon.
 + Mobs specific to settlement will occupy settlement.
@@ -19,41 +19,41 @@ Current Features:
   + Saves explored tiles.
   + Unexplored tiles are in shadow.
 
-Todo List:
-+ Implement seeds into worldgen.
-+ Improve custom room/settlement creation/save/import.
-  + Custom room editor/exporter.
-  + Separate to main game.
-+ Improve settlement AI.
-  + Mobs need to "live" in settlements.
-  + Claim beds/sleep.
-  + Defend against attackers.
-  + Meeding rooms.
-+ Combat.
-+ Player stats.
-+ Mobs can decide to join/follow player, become allies.
-  + Allies defend player.
-+ Shadow falloff from FOV.
-+ Basic Fluids
-  + Fluids make floor wet/slippery.
-  + Can push items/mobs.
-  + Slow mobs down.
-  + Lava/water.
-  + Fluid temperature.
-+ Cave systems.  
-  + Specific mobs live/spawn in caves.
-  + Plants could grow.
-+ Karma.
-  + Good or evil meter.
-  + All mobs affected.
-  + Karma level determines mobs actions.
-  + Karma is affected by mob actions.
-  + Mobs will dislike mobs with opposite karma.
-+ Quests
+**Todo List:**
+- [ ] Implement seeds into worldgen.
+- [ ] Improve custom room/settlement creation/save/import.
+  - [ ] Custom room editor/exporter.
+  - [ ] Separate to main game.
+- [ ] Improve settlement AI.
+  - [ ] Mobs need to "live" in settlements.
+  - [ ] Claim beds/sleep.
+  - [ ] Defend against attackers.
+  - [ ] Meeding rooms.
+- [ ] Combat.
+- [ ] Player stats.
+- [ ] Mobs can decide to join/follow player, become allies.
+  - [ ] Allies defend player.
+- [ ] Shadow falloff from FOV.
+- [ ] Basic Fluids
+  - [ ] Fluids make floor wet/slippery.
+  - [ ] Can push items/mobs.
+  - [ ] Slow mobs down.
+  - [ ] Lava/water.
+  - [ ] Fluid temperature.
+- [ ] Cave systems.  
+  - [ ] Specific mobs live/spawn in caves.
+  - [ ] Plants could grow.
+- [ ] Karma.
+  - [ ] Good or evil meter.
+  - [ ] All mobs affected.
+  - [ ] Karma level determines mobs actions.
+  - [ ] Karma is affected by mob actions.
+  - [ ] Mobs will dislike mobs with opposite karma.
+- [ ] Quests
 
 ===============
 
-Objects:
+**Objects:**
 + Things like doors, tables, chests, beds, chairs, wells.
 + Object placement in settlements is based of .json file, not randomly generated.
 + Objects not in settlements are randomly generated.
@@ -68,7 +68,7 @@ Objects:
 + Some objects are moveable. Tables, chairs, etc.
 + Loading object details same as loading entity details.
 
-Combat:
+**Combat:**
 + I don't have a clue on how to combat.
 + Don't want to have: walk up to mob, mash keys till dead.
 + Don't want to have insane, Dwarf Fortress style, detailed combat.
@@ -77,7 +77,7 @@ Combat:
   + Combat wont be as detailed as player v mob combat.
 + Mob combat stats come from entity.xml file.
 
-Fluids:
+**Fluids:**
 + Fluid has height, type & temperature.
   + Hight determines how much of the fluid there is in a single tile.
   + Type is what type of fluid is is.
