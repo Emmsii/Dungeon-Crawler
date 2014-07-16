@@ -2,6 +2,7 @@ Dungeon-Crawler
 ===============
 
 A randomly generated dungeon crawler made in Java (Requires Java 1.7).
+
 ===============
 
 Note: The term mob includes the player, as well as all other creatures.
@@ -48,6 +49,7 @@ Todo List:
   + Karma level determines mobs actions.
   + Karma is affected by mob actions.
   + Mobs will dislike mobs with opposite karma.
+
 ===============
 
 Combat:
