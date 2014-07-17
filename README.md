@@ -31,6 +31,7 @@ A randomly generated dungeon crawler made in Java (Requires Java 1.7).
   - [ ] Meeding rooms.
 - [ ] Combat.
 - [ ] Player stats.
+- [ ] Implement objects.
 - [ ] Mobs can decide to join/follow player, become allies.
   - [ ] Allies defend player.
 - [ ] Shadow falloff from FOV.
