@@ -15,6 +15,11 @@ A randomly generated dungeon crawler made in Java (Requires Java 1.7).
 + Check to see if dungeon is completable (I don't care if its not a word).
 + Tiles imported from .xml file.
 + Entity data imported from .xml file.
++ Items can be picked up
++ Logs.
+  + Text in corner of screen
+  + Logs when player picks up item.
+  + Other misc things.
 + Buggy feild of view. 
   + Saves explored tiles.
   + Unexplored tiles are in shadow.
