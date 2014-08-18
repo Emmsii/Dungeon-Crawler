@@ -31,6 +31,8 @@ A randomly generated dungeon crawler made in Java (Requires Java 1.7).
   - [ ] Meeding rooms.
 - [ ] Combat.
 - [ ] Player stats.
+- [ ] Items.
+  - [ ] See below for info on items.
 - [ ] Implement objects.
 - [ ] Mobs can decide to join/follow player, become allies.
   - [ ] Allies defend player.
@@ -54,10 +56,23 @@ A randomly generated dungeon crawler made in Java (Requires Java 1.7).
 
 ===============
 
+**Items:**
++ ~~Items can be picked up.~~
++ ~~Coins are items, go straight into players 'wallet'.~~
++ Player can only carry so much weight at a time.
++ When player moves to item, popup window appears asking if player wants to pick up item.
++ Inventory
+  + New window.
+  + Shows all items + coins carried by player.
+  + Shows item stats/info.
+  + 16x9 square (144 total).
+  + No hotbar.
+
 **Objects:**
 + Things like doors, tables, chests, beds, chairs, wells.
 + Object placement in settlements is based of .json file, not randomly generated.
 + Objects not in settlements are randomly generated.
++ Container like objects like chests can contain items and can be locked.
 + Doors are placed at room connection points. 
   + Not all connection points will have doors.
   + Some doors could be locked?
